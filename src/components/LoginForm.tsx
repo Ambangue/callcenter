@@ -22,6 +22,7 @@ export const LoginForm = () => {
       
       if (username === 'admin' && password === 'admin') {
         console.log('Connexion réussie');
+        sessionStorage.setItem("isAuthenticated", "true");
         toast.success('Connexion réussie');
         navigate('/dashboard');
       } else {
@@ -65,7 +66,7 @@ export const LoginForm = () => {
           <input type="checkbox" className="rounded border-gray-300" />
           <span className="text-gray-600">Se souvenir de moi</span>
         </label>
-        <a href="#" className="text-accent hover:underline">
+        <a href="#" className="text-primary hover:underline">
           Mot de passe oublié ?
         </a>
       </div>
@@ -84,7 +85,7 @@ export const LoginForm = () => {
       <div className="text-center text-sm text-gray-600">
         <p>
           Besoin d'aide ?{' '}
-          <a href="#" className="text-accent hover:underline">
+          <a href="#" className="text-primary hover:underline">
             Contactez le support
           </a>
         </p>

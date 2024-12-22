@@ -8,6 +8,18 @@ import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
+// Simulation d'authentification simple
+const isAuthenticated = () => {
+  return sessionStorage.getItem("isAuthenticated") === "true";
+};
+
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -17,7 +29,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

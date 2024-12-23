@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
-import { User, Lock, Loader2, AlertCircle } from 'lucide-react';
+import { User, Lock, Loader2, AlertCircle, Shield, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LoginInput } from './login/LoginInput';
 import { PasswordReset } from './login/PasswordReset';
 import { LoginGuide } from './login/LoginGuide';
 import { SupportInfo } from './login/SupportInfo';
+import { SecurityInfo } from './login/SecurityInfo';
 
 export const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -16,6 +17,8 @@ export const LoginForm = () => {
   const [error, setError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [lastAttemptTime, setLastAttemptTime] = useState<Date | null>(null);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -39,9 +42,20 @@ export const LoginForm = () => {
     setError('');
     
     if (!validateForm()) return;
+
+    // Vérification du délai entre les tentatives
+    if (lastAttemptTime && attempts >= 3) {
+      const timeSinceLastAttempt = new Date().getTime() - lastAttemptTime.getTime();
+      if (timeSinceLastAttempt < 300000) { // 5 minutes
+        toast.error('Trop de tentatives. Veuillez attendre 5 minutes.');
+        return;
+      } else {
+        setAttempts(0);
+      }
+    }
     
     setIsLoading(true);
-    console.log('Tentative de connexion avec:', { username, password, rememberMe });
+    console.log('Tentative de connexion avec:', { username, rememberMe });
     
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -51,19 +65,20 @@ export const LoginForm = () => {
         if (rememberMe) {
           localStorage.setItem("isAuthenticated", "true");
           localStorage.setItem("username", username);
+          localStorage.setItem("lastLoginDate", new Date().toISOString());
         }
         sessionStorage.setItem("isAuthenticated", "true");
-        sessionStorage.setItem("user", JSON.stringify({ username, role: 'admin' }));
+        sessionStorage.setItem("user", JSON.stringify({ 
+          username, 
+          role: 'admin',
+          lastLogin: new Date().toISOString()
+        }));
         toast.success('Connexion réussie ! Redirection...');
         navigate('/dashboard');
       } else {
         console.log('Échec de la connexion');
         setAttempts(prev => prev + 1);
-        if (attempts >= 2) {
-          toast.error('Trop de tentatives. Veuillez réessayer plus tard.');
-          setIsLoading(false);
-          return;
-        }
+        setLastAttemptTime(new Date());
         throw new Error('Identifiants incorrects');
       }
     } catch (err) {
@@ -100,19 +115,29 @@ export const LoginForm = () => {
             autoComplete="username"
           />
           
-          <LoginInput
-            icon={Lock}
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setError('');
-            }}
-            disabled={isLoading}
-            tooltipText="Entrez votre mot de passe"
-            autoComplete="current-password"
-          />
+          <div className="relative">
+            <LoginInput
+              icon={Lock}
+              type={showPassword ? "text" : "password"}
+              placeholder="Mot de passe"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError('');
+              }}
+              disabled={isLoading}
+              tooltipText="Entrez votre mot de passe"
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            >
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         <div className="flex items-center justify-between text-sm">
@@ -140,12 +165,16 @@ export const LoginForm = () => {
               Connexion en cours...
             </>
           ) : (
-            'Se connecter'
+            <>
+              <Shield className="mr-2 h-4 w-4" />
+              Se connecter
+            </>
           )}
         </Button>
       </form>
 
       <div className="space-y-4">
+        <SecurityInfo attempts={attempts} />
         <SupportInfo />
         <LoginGuide />
       </div>

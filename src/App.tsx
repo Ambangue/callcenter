@@ -5,10 +5,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import Statistics from "./pages/Statistics";
 
 const queryClient = new QueryClient();
 
-// Simulation d'authentification simple
 const isAuthenticated = () => {
   return sessionStorage.getItem("isAuthenticated") === "true";
 };
@@ -34,6 +35,22 @@ const App = () => (
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/statistics"
+            element={
+              <PrivateRoute>
+                <Statistics />
               </PrivateRoute>
             }
           />

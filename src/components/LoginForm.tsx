@@ -5,10 +5,12 @@ import { toast } from 'sonner';
 import { User, Lock, Loader2, AlertCircle, Shield, Eye, EyeOff } from 'lucide-react';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LoginInput } from './login/LoginInput';
-import { PasswordReset } from './login/PasswordReset';
+import { ForgotPassword } from './login/ForgotPassword';
+import { TwoFactorAuth } from './login/TwoFactorAuth';
 import { LoginGuide } from './login/LoginGuide';
 import { SupportInfo } from './login/SupportInfo';
 import { SecurityInfo } from './login/SecurityInfo';
+import { UserRole } from '@/types/auth';
 
 export const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -19,6 +21,7 @@ export const LoginForm = () => {
   const [attempts, setAttempts] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [lastAttemptTime, setLastAttemptTime] = useState<Date | null>(null);
+  const [show2FA, setShow2FA] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -37,16 +40,51 @@ export const LoginForm = () => {
     return true;
   };
 
+  const getUserRole = (username: string): UserRole => {
+    // Simulation de rôles basée sur le nom d'utilisateur
+    if (username === 'admin') return 'admin';
+    if (username === 'supervisor') return 'supervisor';
+    return 'agent';
+  };
+
+  const handle2FAVerification = async (code: string) => {
+    console.log('Vérification 2FA avec le code:', code);
+    if (code === '123456') {
+      const role = getUserRole(username);
+      completeLogin(role);
+    } else {
+      throw new Error('Code 2FA invalide');
+    }
+  };
+
+  const completeLogin = (role: UserRole) => {
+    if (rememberMe) {
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("username", username);
+      localStorage.setItem("lastLoginDate", new Date().toISOString());
+    }
+    
+    sessionStorage.setItem("isAuthenticated", "true");
+    sessionStorage.setItem("user", JSON.stringify({ 
+      username, 
+      role,
+      lastLogin: new Date().toISOString()
+    }));
+    
+    toast.success('Connexion réussie ! Redirection...');
+    navigate('/dashboard');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
     if (!validateForm()) return;
 
-    // Vérification du délai entre les tentatives
     if (lastAttemptTime && attempts >= 3) {
       const timeSinceLastAttempt = new Date().getTime() - lastAttemptTime.getTime();
-      if (timeSinceLastAttempt < 300000) { // 5 minutes
+      if (timeSinceLastAttempt < 300000) {
         toast.error('Trop de tentatives. Veuillez attendre 5 minutes.');
         return;
       } else {
@@ -60,21 +98,10 @@ export const LoginForm = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (username === 'admin' && password === 'admin') {
-        console.log('Connexion réussie');
-        if (rememberMe) {
-          localStorage.setItem("isAuthenticated", "true");
-          localStorage.setItem("username", username);
-          localStorage.setItem("lastLoginDate", new Date().toISOString());
-        }
-        sessionStorage.setItem("isAuthenticated", "true");
-        sessionStorage.setItem("user", JSON.stringify({ 
-          username, 
-          role: 'admin',
-          lastLogin: new Date().toISOString()
-        }));
-        toast.success('Connexion réussie ! Redirection...');
-        navigate('/dashboard');
+      // Simulation de vérification des identifiants
+      if (['admin', 'agent', 'supervisor'].includes(username) && password === 'admin') {
+        console.log('Identifiants valides, vérification 2FA nécessaire');
+        setShow2FA(true);
       } else {
         console.log('Échec de la connexion');
         setAttempts(prev => prev + 1);
@@ -89,6 +116,15 @@ export const LoginForm = () => {
       setIsLoading(false);
     }
   };
+
+  if (show2FA) {
+    return (
+      <TwoFactorAuth
+        onVerify={handle2FAVerification}
+        onCancel={() => setShow2FA(false)}
+      />
+    );
+  }
 
   return (
     <div className="space-y-6 w-full max-w-sm mx-auto animate-fade-in">
@@ -151,7 +187,7 @@ export const LoginForm = () => {
             />
             <span className="text-gray-600">Se souvenir de moi</span>
           </label>
-          <PasswordReset />
+          <ForgotPassword />
         </div>
 
         <Button 

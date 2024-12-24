@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Statistics from "./pages/Statistics";
 import Help from "./pages/Help";
+import { UserRole } from "./types/auth";
 
 const queryClient = new QueryClient();
 
@@ -15,10 +16,31 @@ const isAuthenticated = () => {
   return sessionStorage.getItem("isAuthenticated") === "true";
 };
 
-const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+const getUserRole = (): UserRole | null => {
+  const user = sessionStorage.getItem("user");
+  if (user) {
+    return JSON.parse(user).role;
+  }
+  return null;
+};
+
+interface PrivateRouteProps {
+  children: React.ReactNode;
+  allowedRoles?: UserRole[];
+}
+
+const PrivateRoute = ({ children, allowedRoles }: PrivateRouteProps) => {
   if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
+
+  const userRole = getUserRole();
+  
+  if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
+    toast.error("Accès non autorisé");
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return <>{children}</>;
 };
 
@@ -50,7 +72,7 @@ const App = () => (
           <Route
             path="/statistics"
             element={
-              <PrivateRoute>
+              <PrivateRoute allowedRoles={['admin', 'supervisor']}>
                 <Statistics />
               </PrivateRoute>
             }

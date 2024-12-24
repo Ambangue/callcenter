@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Statistics from "./pages/Statistics";
+import Help from "./pages/Help";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,14 @@ const App = () => (
             element={
               <PrivateRoute>
                 <Statistics />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/help"
+            element={
+              <PrivateRoute>
+                <Help />
               </PrivateRoute>
             }
           />

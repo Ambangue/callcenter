@@ -16,7 +16,7 @@ export const SecurityInfo = ({ attempts }: SecurityInfoProps) => {
     }
     if (attempts === 2) {
       return {
-        type: "warning" as const,
+        type: "default" as const,
         message: "Attention : Deuxième tentative échouée. Une tentative restante avant le blocage temporaire."
       };
     }

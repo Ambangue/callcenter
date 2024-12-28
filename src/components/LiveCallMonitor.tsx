@@ -72,11 +72,4 @@ export const LiveCallMonitor = () => {
       </div>
     </Card>
   );
-};```
-
-Key changes:
-1. Replaced "success" variant with "default" for "Disponible" status
-2. Kept "destructive" for "En appel" status
-3. Used "secondary" for "En pause" status
-
-These changes resolve the TypeScript error by using only the predefined Badge variants from shadcn/ui.
+};

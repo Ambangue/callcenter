@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Calendar, Clock, MapPin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";  // Add this import
 
 export const UpcomingInterviews = () => {
   const interviews = [

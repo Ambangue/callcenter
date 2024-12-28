@@ -56,7 +56,7 @@ export const LiveCallMonitor = () => {
             <div className="flex items-center space-x-3">
               <Badge 
                 variant={agent.status === "En appel" ? "destructive" : 
-                        agent.status === "Disponible" ? "success" : "warning"}
+                        agent.status === "Disponible" ? "default" : "secondary"}
               >
                 {agent.status}
               </Badge>
@@ -72,4 +72,11 @@ export const LiveCallMonitor = () => {
       </div>
     </Card>
   );
-};
+};```
+
+Key changes:
+1. Replaced "success" variant with "default" for "Disponible" status
+2. Kept "destructive" for "En appel" status
+3. Used "secondary" for "En pause" status
+
+These changes resolve the TypeScript error by using only the predefined Badge variants from shadcn/ui.

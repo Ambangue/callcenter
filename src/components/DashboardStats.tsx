@@ -1,36 +1,36 @@
 import { Card } from "@/components/ui/card";
-import { Phone, PhoneIncoming, PhoneOutgoing, Clock, Users } from "lucide-react";
+import { PhoneIncoming, PhoneOutgoing, Clock, Users, Briefcase, CheckCircle } from "lucide-react";
 
 export const DashboardStats = () => {
   console.log("Rendering DashboardStats component");
   
   const stats = [
     { 
-      label: "Appels entrants", 
+      label: "Demandeurs contactés", 
       value: "127", 
       change: "+12%",
       icon: PhoneIncoming,
       color: "text-green-500"
     },
     { 
-      label: "Appels sortants", 
+      label: "Entreprises contactées", 
       value: "89", 
       change: "+5%",
       icon: PhoneOutgoing,
       color: "text-blue-500"
     },
     { 
-      label: "Temps moyen d'appel", 
+      label: "Durée moyenne", 
       value: "4m 30s", 
       change: "-8%",
       icon: Clock,
       color: "text-orange-500"
     },
     { 
-      label: "Agents actifs", 
+      label: "Placements réalisés", 
       value: "24", 
       change: "+2",
-      icon: Users,
+      icon: CheckCircle,
       color: "text-purple-500"
     },
   ];

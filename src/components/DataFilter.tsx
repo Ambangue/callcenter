@@ -20,10 +20,10 @@ export const DataFilter = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous</SelectItem>
-            <SelectItem value="appels">Appels</SelectItem>
-            <SelectItem value="emails">Emails</SelectItem>
-            <SelectItem value="chat">Chat</SelectItem>
-            <SelectItem value="sms">SMS</SelectItem>
+            <SelectItem value="demandeurs">Demandeurs d'emploi</SelectItem>
+            <SelectItem value="entreprises">Entreprises</SelectItem>
+            <SelectItem value="placements">Placements</SelectItem>
+            <SelectItem value="formations">Formations</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -37,9 +37,9 @@ export const DataFilter = () => {
           <SelectContent>
             <SelectItem value="all">Tous</SelectItem>
             <SelectItem value="en-cours">En cours</SelectItem>
-            <SelectItem value="termine">Terminé</SelectItem>
+            <SelectItem value="place">Placé</SelectItem>
+            <SelectItem value="en-formation">En formation</SelectItem>
             <SelectItem value="en-attente">En attente</SelectItem>
-            <SelectItem value="transfere">Transféré</SelectItem>
           </SelectContent>
         </Select>
       </div>

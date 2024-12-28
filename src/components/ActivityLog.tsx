@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { PhoneIncoming, PhoneOutgoing, MessageSquare, Mail } from "lucide-react";
+import { PhoneIncoming, PhoneOutgoing, MessageSquare, Mail, Briefcase, UserCheck } from "lucide-react";
 
 export const ActivityLog = () => {
   console.log("Rendering ActivityLog component");
@@ -8,41 +8,43 @@ export const ActivityLog = () => {
   const activities = [
     {
       id: 1,
-      type: "appel-entrant",
+      type: "placement",
       agent: "Jean Makiese",
-      contact: "+242 06 123 4567",
+      contact: "Entreprise ABC",
       time: "Il y a 5 min",
-      duration: "4:30",
-      icon: PhoneIncoming,
+      description: "Placement réussi - Développeur Web",
+      icon: UserCheck,
       iconColor: "text-green-500"
     },
     {
       id: 2,
-      type: "email",
+      type: "appel-entrant",
       agent: "Marie Lumumba",
-      contact: "client@example.com",
+      contact: "Demandeur d'emploi",
       time: "Il y a 15 min",
-      icon: Mail,
+      description: "Suivi de candidature",
+      icon: PhoneIncoming,
       iconColor: "text-blue-500"
     },
     {
       id: 3,
-      type: "appel-sortant",
+      type: "entreprise",
       agent: "Pierre Kasa",
-      contact: "+242 05 987 6543",
+      contact: "Entreprise XYZ",
       time: "Il y a 30 min",
-      duration: "2:45",
-      icon: PhoneOutgoing,
-      iconColor: "text-orange-500"
+      description: "Nouvelle offre d'emploi enregistrée",
+      icon: Briefcase,
+      iconColor: "text-purple-500"
     },
     {
       id: 4,
-      type: "chat",
+      type: "email",
       agent: "Sarah Mobutu",
-      contact: "Client Web",
+      contact: "Candidat",
       time: "Il y a 45 min",
-      icon: MessageSquare,
-      iconColor: "text-purple-500"
+      description: "Convocation entretien envoyée",
+      icon: Mail,
+      iconColor: "text-orange-500"
     },
   ];
 
@@ -65,9 +67,7 @@ export const ActivityLog = () => {
                   <span className="text-xs text-gray-500">{activity.time}</span>
                 </div>
                 <p className="text-sm text-gray-600">{activity.contact}</p>
-                {activity.duration && (
-                  <p className="text-xs text-gray-500">Durée: {activity.duration}</p>
-                )}
+                <p className="text-xs text-gray-500">{activity.description}</p>
               </div>
             </div>
           ))}

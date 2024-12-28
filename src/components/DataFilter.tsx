@@ -8,35 +8,53 @@ import {
 import { Label } from "./ui/label";
 
 export const DataFilter = () => {
+  console.log("Rendering DataFilter component");
+
   return (
     <div className="space-y-4">
       <div className="grid gap-2">
-        <Label>Filtrer par statut</Label>
+        <Label>Type d'interaction</Label>
+        <Select defaultValue="all">
+          <SelectTrigger>
+            <SelectValue placeholder="Sélectionner un type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tous</SelectItem>
+            <SelectItem value="appels">Appels</SelectItem>
+            <SelectItem value="emails">Emails</SelectItem>
+            <SelectItem value="chat">Chat</SelectItem>
+            <SelectItem value="sms">SMS</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-2">
+        <Label>Statut</Label>
         <Select defaultValue="all">
           <SelectTrigger>
             <SelectValue placeholder="Sélectionner un statut" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous</SelectItem>
-            <SelectItem value="active">Actif</SelectItem>
-            <SelectItem value="inactive">Inactif</SelectItem>
-            <SelectItem value="pending">En attente</SelectItem>
+            <SelectItem value="en-cours">En cours</SelectItem>
+            <SelectItem value="termine">Terminé</SelectItem>
+            <SelectItem value="en-attente">En attente</SelectItem>
+            <SelectItem value="transfere">Transféré</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="grid gap-2">
-        <Label>Filtrer par date</Label>
-        <Select defaultValue="all">
+        <Label>Période</Label>
+        <Select defaultValue="today">
           <SelectTrigger>
             <SelectValue placeholder="Sélectionner une période" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Toutes les dates</SelectItem>
             <SelectItem value="today">Aujourd'hui</SelectItem>
             <SelectItem value="week">Cette semaine</SelectItem>
             <SelectItem value="month">Ce mois</SelectItem>
-            <SelectItem value="year">Cette année</SelectItem>
+            <SelectItem value="custom">Personnalisé</SelectItem>
           </SelectContent>
         </Select>
       </div>

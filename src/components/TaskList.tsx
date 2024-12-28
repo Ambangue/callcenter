@@ -4,10 +4,37 @@ import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 
 export const TaskList = () => {
+  console.log("Rendering TaskList component");
+
   const [tasks, setTasks] = useState([
-    { id: 1, title: "Mise à jour des dossiers", completed: false, priority: "high" },
-    { id: 2, title: "Révision des demandes", completed: false, priority: "medium" },
-    { id: 3, title: "Préparation du rapport", completed: true, priority: "low" }
+    { 
+      id: 1, 
+      title: "Rappeler M. Bokolo", 
+      completed: false, 
+      priority: "high",
+      time: "10:30"
+    },
+    { 
+      id: 2, 
+      title: "Répondre aux emails en attente", 
+      completed: false, 
+      priority: "medium",
+      time: "11:00"
+    },
+    { 
+      id: 3, 
+      title: "Mise à jour base contacts", 
+      completed: true, 
+      priority: "low",
+      time: "14:00"
+    },
+    { 
+      id: 4, 
+      title: "Formation nouveaux agents", 
+      completed: false, 
+      priority: "high",
+      time: "15:30"
+    }
   ]);
 
   const toggleTask = (taskId: number) => {
@@ -22,7 +49,7 @@ export const TaskList = () => {
   return (
     <Card className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">Tâches en cours</h3>
+        <h3 className="text-lg font-semibold">Tâches du jour</h3>
         <span className="text-sm text-gray-500">
           {completedTasks}/{tasks.length} complétées
         </span>
@@ -40,9 +67,14 @@ export const TaskList = () => {
               checked={task.completed}
               onCheckedChange={() => toggleTask(task.id)}
             />
-            <span className={`flex-1 text-sm ${task.completed ? 'line-through text-gray-500' : ''}`}>
-              {task.title}
-            </span>
+            <div className="flex-1">
+              <span className={`text-sm ${task.completed ? 'line-through text-gray-500' : ''}`}>
+                {task.title}
+              </span>
+              <span className="text-xs text-gray-500 ml-2">
+                {task.time}
+              </span>
+            </div>
             <span className={`text-xs px-2 py-1 rounded ${
               task.priority === 'high' ? 'bg-red-100 text-red-800' :
               task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :

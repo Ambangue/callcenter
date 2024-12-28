@@ -1,62 +1,73 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
-import { Clock, User, FileText } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { PhoneIncoming, PhoneOutgoing, MessageSquare, Mail } from "lucide-react";
 
 export const ActivityLog = () => {
+  console.log("Rendering ActivityLog component");
+
   const activities = [
     {
       id: 1,
-      user: "Jean Dupont",
-      action: "a créé un nouveau dossier",
-      time: "Il y a 5 minutes",
-      type: "create"
+      type: "appel-entrant",
+      agent: "Jean Makiese",
+      contact: "+242 06 123 4567",
+      time: "Il y a 5 min",
+      duration: "4:30",
+      icon: PhoneIncoming,
+      iconColor: "text-green-500"
     },
     {
       id: 2,
-      user: "Marie Martin",
-      action: "a modifié le statut",
-      time: "Il y a 15 minutes",
-      type: "update"
+      type: "email",
+      agent: "Marie Lumumba",
+      contact: "client@example.com",
+      time: "Il y a 15 min",
+      icon: Mail,
+      iconColor: "text-blue-500"
     },
     {
       id: 3,
-      user: "Paul Bernard",
-      action: "a ajouté un commentaire",
-      time: "Il y a 30 minutes",
-      type: "comment"
-    }
+      type: "appel-sortant",
+      agent: "Pierre Kasa",
+      contact: "+242 05 987 6543",
+      time: "Il y a 30 min",
+      duration: "2:45",
+      icon: PhoneOutgoing,
+      iconColor: "text-orange-500"
+    },
+    {
+      id: 4,
+      type: "chat",
+      agent: "Sarah Mobutu",
+      contact: "Client Web",
+      time: "Il y a 45 min",
+      icon: MessageSquare,
+      iconColor: "text-purple-500"
+    },
   ];
-
-  const getIcon = (type: string) => {
-    switch (type) {
-      case "create":
-        return <FileText className="h-4 w-4 text-green-500" />;
-      case "update":
-        return <Clock className="h-4 w-4 text-blue-500" />;
-      case "comment":
-        return <User className="h-4 w-4 text-purple-500" />;
-      default:
-        return <Clock className="h-4 w-4" />;
-    }
-  };
 
   return (
     <Card className="p-4">
       <h3 className="text-lg font-semibold mb-4">Activités récentes</h3>
-      <ScrollArea className="h-[300px]">
+      <ScrollArea className="h-[400px] pr-4">
         <div className="space-y-4">
           {activities.map((activity) => (
             <div
               key={activity.id}
-              className="flex items-start space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"
+              className="flex items-start space-x-4 p-3 rounded-lg hover:bg-gray-50"
             >
-              {getIcon(activity.type)}
-              <div className="flex-1">
-                <p className="text-sm">
-                  <span className="font-medium">{activity.user}</span>{" "}
-                  {activity.action}
-                </p>
-                <span className="text-xs text-gray-500">{activity.time}</span>
+              <div className={`rounded-full p-2 bg-gray-100 ${activity.iconColor}`}>
+                <activity.icon className="h-4 w-4" />
+              </div>
+              <div className="flex-1 space-y-1">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium">{activity.agent}</p>
+                  <span className="text-xs text-gray-500">{activity.time}</span>
+                </div>
+                <p className="text-sm text-gray-600">{activity.contact}</p>
+                {activity.duration && (
+                  <p className="text-xs text-gray-500">Durée: {activity.duration}</p>
+                )}
               </div>
             </div>
           ))}

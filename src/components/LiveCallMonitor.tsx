@@ -55,8 +55,11 @@ export const LiveCallMonitor = () => {
             </div>
             <div className="flex items-center space-x-3">
               <Badge 
-                variant={agent.status === "En appel" ? "destructive" : 
-                        agent.status === "Disponible" ? "default" : "secondary"}
+                variant={
+                  agent.status === "En appel" ? "destructive" : 
+                  agent.status === "Disponible" ? "default" : 
+                  "secondary"
+                }
               >
                 {agent.status}
               </Badge>

@@ -38,7 +38,7 @@ export const Header = () => {
               className="h-12 w-auto transition-transform duration-200 hover:scale-105"
             />
             <div className="flex flex-col">
-              <h1 className="text-xl font-bold">Agence Nationale Pour l'Emploi</h1>
+              <h1 className="text-xl font-bold">ACPE Agence Congolaise Pour l'Emploi</h1>
               <p className="text-sm text-white/80 hidden md:block">
                 Votre partenaire pour l'emploi
               </p>

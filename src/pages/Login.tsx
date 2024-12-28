@@ -10,7 +10,7 @@ const Login = () => {
         <div className="w-full max-w-md space-y-8 bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
           <div className="text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-              Agence Nationale pour l'Emploi
+              ACPE Agence Congolaise Pour l'Emploi
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               Connectez-vous à votre compte

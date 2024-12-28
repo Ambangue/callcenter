@@ -17,7 +17,7 @@ export const DashboardNav = () => {
           <div className="flex items-center justify-start">
             <img src="/anpe-logo.png" alt="ANPE Logo" className="h-8 mr-3" />
             <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
-              ANPE Dashboard
+              ACPE Dashboard
             </span>
           </div>
           

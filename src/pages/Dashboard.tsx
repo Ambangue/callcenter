@@ -7,9 +7,11 @@ import { DataFilter } from "@/components/DataFilter";
 import { DashboardStats } from "@/components/DashboardStats";
 import { LiveCallMonitor } from "@/components/LiveCallMonitor";
 import { CallCenterKPIs } from "@/components/CallCenterKPIs";
+import { ViciDialConfig } from "@/components/vicidial/ViciDialConfig";
+import { AgentMonitor } from "@/components/vicidial/AgentMonitor";
 
 const Dashboard = () => {
-  console.log("Rendering Dashboard page");
+  console.log("Rendering Dashboard page with ViciDial integration");
   
   return (
     <div className="min-h-screen bg-background">
@@ -25,6 +27,11 @@ const Dashboard = () => {
             <div>
               <LiveCallMonitor />
             </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ViciDialConfig />
+            <AgentMonitor />
           </div>
           
           <DashboardStats />

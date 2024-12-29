@@ -6,7 +6,7 @@ import { Plus, List, ChartBar } from "lucide-react";
 import { CampaignList } from "./CampaignList";
 import { CampaignForm } from "./CampaignForm";
 import { CampaignStats } from "./CampaignStats";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export const CampaignManagement = () => {
   const [view, setView] = useState<"list" | "new" | "stats">("list");

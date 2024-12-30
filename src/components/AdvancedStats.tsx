@@ -10,8 +10,11 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  BarChart,
+  Bar
 } from "recharts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const hourlyData = [
   { heure: "8h", demandeurs: 45, entreprises: 30, placements: 40 },
@@ -32,71 +35,108 @@ const channelData = [
   { name: "SMS", value: 5 },
 ];
 
+const satisfactionData = [
+  { niveau: "Très satisfait", value: 45 },
+  { niveau: "Satisfait", value: 30 },
+  { niveau: "Neutre", value: 15 },
+  { niveau: "Insatisfait", value: 10 },
+];
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export const AdvancedStats = () => {
   console.log("Rendering AdvancedStats component");
   
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Activités par heure</h3>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={hourlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="heure" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line 
-                type="monotone" 
-                dataKey="demandeurs" 
-                stroke="#0EA5E9" 
-                name="Demandeurs contactés"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="entreprises" 
-                stroke="#10B981" 
-                name="Entreprises contactées"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="placements" 
-                stroke="#6366F1" 
-                name="Placements"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
+    <div className="space-y-6 animate-fade-in">
+      <Tabs defaultValue="activite" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="activite">Activité Horaire</TabsTrigger>
+          <TabsTrigger value="canaux">Canaux</TabsTrigger>
+          <TabsTrigger value="satisfaction">Satisfaction</TabsTrigger>
+        </TabsList>
 
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Répartition par canal</h3>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={channelData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={100}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              >
-                {channelData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
+        <TabsContent value="activite">
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Activités par heure</h3>
+            <div className="h-[400px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={hourlyData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="heure" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line 
+                    type="monotone" 
+                    dataKey="demandeurs" 
+                    stroke="#0EA5E9" 
+                    name="Demandeurs contactés"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="entreprises" 
+                    stroke="#10B981" 
+                    name="Entreprises contactées"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="placements" 
+                    stroke="#6366F1" 
+                    name="Placements"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="canaux">
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Répartition par canal</h3>
+            <div className="h-[400px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={channelData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={150}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  >
+                    {channelData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="satisfaction">
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Niveau de satisfaction</h3>
+            <div className="h-[400px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={satisfactionData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="niveau" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="value" fill="#0EA5E9" name="Nombre d'utilisateurs" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

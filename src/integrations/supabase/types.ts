@@ -135,30 +135,71 @@ export type Database = {
           },
         ]
       }
+      asterisk_events: {
+        Row: {
+          agent_id: string | null
+          created_at: string
+          event_data: Json
+          event_type: string
+          id: string
+        }
+        Insert: {
+          agent_id?: string | null
+          created_at?: string
+          event_data: Json
+          event_type: string
+          id?: string
+        }
+        Update: {
+          agent_id?: string | null
+          created_at?: string
+          event_data?: Json
+          event_type?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asterisk_events_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "call_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       call_agents: {
         Row: {
+          asterisk_extension: string | null
           created_at: string | null
           extension: string | null
           id: string
           last_call_time: string | null
+          sip_pass: string | null
+          sip_user: string | null
           status: string | null
           updated_at: string | null
           vicidial_id: string
         }
         Insert: {
+          asterisk_extension?: string | null
           created_at?: string | null
           extension?: string | null
           id?: string
           last_call_time?: string | null
+          sip_pass?: string | null
+          sip_user?: string | null
           status?: string | null
           updated_at?: string | null
           vicidial_id: string
         }
         Update: {
+          asterisk_extension?: string | null
           created_at?: string | null
           extension?: string | null
           id?: string
           last_call_time?: string | null
+          sip_pass?: string | null
+          sip_user?: string | null
           status?: string | null
           updated_at?: string | null
           vicidial_id?: string
@@ -285,6 +326,60 @@ export type Database = {
           id?: string
           start_date?: string
           status?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          role: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      vicidial_config: {
+        Row: {
+          api_pass: string
+          api_user: string
+          asterisk_port: number | null
+          asterisk_server: string
+          created_at: string
+          id: string
+          server_url: string
+          updated_at: string
+        }
+        Insert: {
+          api_pass: string
+          api_user: string
+          asterisk_port?: number | null
+          asterisk_server: string
+          created_at?: string
+          id?: string
+          server_url: string
+          updated_at?: string
+        }
+        Update: {
+          api_pass?: string
+          api_user?: string
+          asterisk_port?: number | null
+          asterisk_server?: string
+          created_at?: string
+          id?: string
+          server_url?: string
+          updated_at?: string
         }
         Relationships: []
       }

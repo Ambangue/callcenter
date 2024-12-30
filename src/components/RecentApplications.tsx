@@ -1,61 +1,61 @@
 import { Card } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Clock, Building } from "lucide-react";
 
 export const RecentApplications = () => {
   const applications = [
     {
-      id: 1,
-      candidate: "Jean Makiese",
+      company: "Tech Solutions",
       position: "Développeur Frontend",
-      company: "TechCo",
-      status: "En attente",
-      date: "2024-02-25",
+      date: "Il y a 2 heures",
+      status: "En attente"
     },
     {
-      id: 2,
-      candidate: "Marie Lumumba",
-      position: "Chef de Projet",
-      company: "ConsultCo",
-      status: "Accepté",
-      date: "2024-02-24",
+      company: "Digital Agency",
+      position: "UX Designer",
+      date: "Il y a 3 heures",
+      status: "Entretien"
     },
     {
-      id: 3,
-      candidate: "Pierre Kasa",
-      position: "Analyste Marketing",
-      company: "MarketCo",
-      status: "En cours",
-      date: "2024-02-23",
-    },
+      company: "StartUp Inc",
+      position: "Product Manager",
+      date: "Il y a 5 heures",
+      status: "Candidature envoyée"
+    }
   ];
-
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      "En attente": "bg-yellow-100 text-yellow-800",
-      "Accepté": "bg-green-100 text-green-800",
-      "En cours": "bg-blue-100 text-blue-800",
-      "Refusé": "bg-red-100 text-red-800",
-    };
-    return styles[status as keyof typeof styles] || "";
-  };
 
   return (
     <Card className="p-6">
-      <h2 className="text-xl font-semibold mb-4">Candidatures récentes</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Candidatures récentes</h2>
+        <Button variant="outline">Voir tout</Button>
+      </div>
+      
       <div className="space-y-4">
-        {applications.map((app) => (
-          <div key={app.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Avatar />
+        {applications.map((application, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-between p-4 bg-muted rounded-lg"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="p-2 bg-background rounded-full">
+                <Building className="h-5 w-5 text-primary" />
+              </div>
               <div>
-                <p className="font-medium">{app.candidate}</p>
-                <p className="text-sm text-muted-foreground">{app.position} - {app.company}</p>
+                <h3 className="font-medium">{application.position}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {application.company}
+                </p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Badge className={getStatusBadge(app.status)}>{app.status}</Badge>
-              <span className="text-sm text-muted-foreground">{app.date}</span>
+            
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Clock className="h-4 w-4 mr-1" />
+                {application.date}
+              </div>
+              <Badge variant="secondary">{application.status}</Badge>
             </div>
           </div>
         ))}

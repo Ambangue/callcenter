@@ -1,70 +1,18 @@
-import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Phone } from "lucide-react";
 
 export const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-primary text-white mt-auto">
+    <footer className="border-t bg-background">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contactez-nous</h3>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>+229 21 30 68 36</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                <span>contact@anpe.bj</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <span>Cotonou, Bénin</span>
-              </div>
-            </div>
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="flex items-center space-x-2">
+            <Phone className="h-5 w-5 text-primary" />
+            <span className="text-lg font-semibold">ACPE Call Center</span>
           </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Liens rapides</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="hover:underline">À propos de nous</a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">Nos services</a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">Offres d'emploi</a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">FAQ</a>
-              </li>
-            </ul>
+          
+          <div className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} ACPE. Tous droits réservés.
           </div>
-
-          {/* Social Media */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Suivez-nous</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-accent transition-colors">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="#" className="hover:text-accent transition-colors">
-                <Twitter className="h-6 w-6" />
-              </a>
-              <a href="#" className="hover:text-accent transition-colors">
-                <Linkedin className="h-6 w-6" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="mt-8 pt-4 border-t border-white/10 text-center text-sm">
-          <p>© {currentYear} ACPE Agence Congolaise Pour l'Emploi - Tous droits réservés</p>
         </div>
       </div>
     </footer>

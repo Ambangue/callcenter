@@ -10,6 +10,7 @@ import { CallCenterKPIs } from "@/components/CallCenterKPIs";
 import { ViciDialConfig } from "@/components/vicidial/ViciDialConfig";
 import { AgentMonitor } from "@/components/vicidial/AgentMonitor";
 import { CallManagement } from "@/components/CallManagement";
+import { ViciDialDashboard } from "@/components/vicidial/ViciDialDashboard";
 
 const Dashboard = () => {
   console.log("Rendering Dashboard page with enhanced features");
@@ -20,6 +21,8 @@ const Dashboard = () => {
       <main className="pt-16 px-4">
         <div className="max-w-7xl mx-auto space-y-6">
           <h1 className="text-3xl font-bold">Centre d'Appels ACPE</h1>
+          
+          <ViciDialDashboard />
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">

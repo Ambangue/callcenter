@@ -8,9 +8,11 @@ import { viciDialService } from "@/services/vicidial";
 
 export const ViciDialConfig = () => {
   const [config, setConfig] = useState({
-    serverUrl: "",
+    serverUrl: "http://vicibox11:8089",
     username: "",
     password: "",
+    asteriskServer: "vicibox11",
+    asteriskPort: 5038
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,6 +21,7 @@ export const ViciDialConfig = () => {
     setIsLoading(true);
     
     try {
+      console.log("Tentative de connexion à ViciDial avec la configuration:", config);
       const success = await viciDialService.initialize(config);
       if (success) {
         toast.success("Configuration ViciDial réussie");
@@ -38,12 +41,12 @@ export const ViciDialConfig = () => {
       <h2 className="text-2xl font-bold mb-6">Configuration ViciDial</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="serverUrl">URL du serveur</Label>
+          <Label htmlFor="serverUrl">URL du serveur ViciDial</Label>
           <Input
             id="serverUrl"
             value={config.serverUrl}
             onChange={(e) => setConfig({ ...config, serverUrl: e.target.value })}
-            placeholder="https://votre-serveur-vicidial.com"
+            placeholder="http://vicibox11:8089"
             required
           />
         </div>
@@ -65,6 +68,29 @@ export const ViciDialConfig = () => {
             type="password"
             value={config.password}
             onChange={(e) => setConfig({ ...config, password: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="asteriskServer">Serveur Asterisk</Label>
+          <Input
+            id="asteriskServer"
+            value={config.asteriskServer}
+            onChange={(e) => setConfig({ ...config, asteriskServer: e.target.value })}
+            placeholder="vicibox11"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="asteriskPort">Port Asterisk</Label>
+          <Input
+            id="asteriskPort"
+            type="number"
+            value={config.asteriskPort}
+            onChange={(e) => setConfig({ ...config, asteriskPort: parseInt(e.target.value) })}
+            placeholder="5038"
             required
           />
         </div>

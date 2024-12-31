@@ -4,35 +4,64 @@ interface ViciDialConfig {
   serverUrl: string;
   username: string;
   password: string;
+  asteriskServer: string;
+  asteriskPort: number;
 }
 
 class ViciDialService {
   private config: ViciDialConfig | null = null;
   
   async initialize(config: ViciDialConfig) {
-    console.log("Initializing ViciDial service with config:", config);
+    console.log("Initialisation du service ViciDial avec la configuration:", {
+      ...config,
+      password: '***' // On masque le mot de passe dans les logs
+    });
+    
     this.config = config;
-    return this.testConnection();
+    
+    try {
+      // Sauvegarde de la configuration dans Supabase
+      const { error } = await supabase
+        .from('vicidial_config')
+        .upsert({
+          server_url: config.serverUrl,
+          api_user: config.username,
+          api_pass: config.password,
+          asterisk_server: config.asteriskServer,
+          asterisk_port: config.asteriskPort,
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+      
+      return await this.testConnection();
+    } catch (error) {
+      console.error("Erreur lors de l'initialisation de ViciDial:", error);
+      return false;
+    }
   }
 
   private async testConnection(): Promise<boolean> {
+    if (!this.config) return false;
+
     try {
-      const response = await fetch(`${this.config?.serverUrl}/agc/api.php`, {
+      console.log("Test de connexion à ViciDial...");
+      const response = await fetch(`${this.config.serverUrl}/agc/api.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
           source: 'test',
-          user: this.config?.username || '',
-          pass: this.config?.password || '',
+          user: this.config.username,
+          pass: this.config.password,
         }),
       });
 
-      console.log("ViciDial connection test response:", response.status);
+      console.log("Réponse du test de connexion ViciDial:", response.status);
       return response.ok;
     } catch (error) {
-      console.error("ViciDial connection test failed:", error);
+      console.error("Échec du test de connexion ViciDial:", error);
       return false;
     }
   }
@@ -48,7 +77,7 @@ class ViciDialService {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("Error fetching agent status:", error);
+      console.error("Erreur lors de la récupération du statut de l'agent:", error);
       throw error;
     }
   }
@@ -57,7 +86,10 @@ class ViciDialService {
     try {
       const { data, error } = await supabase
         .from('call_agents')
-        .update({ status, updated_at: new Date().toISOString() })
+        .update({ 
+          status, 
+          updated_at: new Date().toISOString() 
+        })
         .eq('vicidial_id', agentId)
         .select()
         .single();
@@ -65,7 +97,7 @@ class ViciDialService {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("Error updating agent status:", error);
+      console.error("Erreur lors de la mise à jour du statut de l'agent:", error);
       throw error;
     }
   }

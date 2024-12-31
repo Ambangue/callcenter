@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,30 +6,47 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { Phone, PhoneCall, PhoneOff, Mic, MicOff, Volume2, VolumeX, User, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export const ViciDialDashboard = () => {
   const [customerInfo, setCustomerInfo] = useState({
-    title: "",
-    firstName: "",
-    middleInitial: "",
-    lastName: "",
-    address1: "",
-    address2: "",
-    address3: "",
-    city: "",
-    state: "",
-    postCode: "",
-    province: "",
-    vendorId: "",
-    gender: "",
-    phone: "",
-    dialCode: "",
-    altPhone: "",
-    show: "",
+    titre: "",
+    prenom: "",
+    nom: "",
+    adresse1: "",
+    adresse2: "",
+    ville: "",
+    codePostal: "",
+    telephone: "",
+    telephoneAlt: "",
     email: "",
-    comments: "",
-    callNotes: ""
+    genre: "",
+    commentaires: "",
+    notesAppel: ""
   });
+
+  const [callStatus, setCallStatus] = useState({
+    isActive: false,
+    isMuted: false,
+    hasAudio: true
+  });
+
+  const [agentStats, setAgentStats] = useState({
+    totalCalls: 0,
+    successfulCalls: 0,
+    averageCallTime: "0:00"
+  });
+
+  useEffect(() => {
+    console.log("Initializing ViciDial dashboard");
+    // Simulation des statistiques pour la démo
+    setAgentStats({
+      totalCalls: 45,
+      successfulCalls: 32,
+      averageCallTime: "4:30"
+    });
+  }, []);
 
   const handleInputChange = (field: string, value: string) => {
     setCustomerInfo(prev => ({
@@ -40,89 +57,158 @@ export const ViciDialDashboard = () => {
 
   const handleDialNext = () => {
     toast.info("Composition du numéro suivant...");
+    setCallStatus(prev => ({ ...prev, isActive: true }));
   };
 
-  const handleLeadSearch = () => {
-    toast.info("Recherche de prospect...");
+  const handleHangup = () => {
+    toast.info("Appel terminé");
+    setCallStatus(prev => ({ ...prev, isActive: false }));
   };
 
-  const handleStartRecording = () => {
-    toast.success("Enregistrement démarré");
+  const toggleMute = () => {
+    setCallStatus(prev => ({ ...prev, isMuted: !prev.isMuted }));
+    toast.info(callStatus.isMuted ? "Micro activé" : "Micro désactivé");
+  };
+
+  const toggleAudio = () => {
+    setCallStatus(prev => ({ ...prev, hasAudio: !prev.hasAudio }));
+    toast.info(callStatus.hasAudio ? "Audio désactivé" : "Audio activé");
   };
 
   return (
     <Card className="p-6 space-y-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold">ViciDial Agent Interface</h2>
+          <h2 className="text-2xl font-bold">Interface Agent ViciDial</h2>
           <p className="text-muted-foreground">Session ID: 8600051</p>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">Campaign: TOPCALL</span>
-          <Button variant="destructive" size="sm">LOGOUT</Button>
+          <Badge variant={callStatus.isActive ? "destructive" : "secondary"}>
+            {callStatus.isActive ? "En appel" : "Disponible"}
+          </Badge>
+          <span className="text-sm text-muted-foreground">Campagne: TOPCALL</span>
+          <Button variant="destructive" size="sm">DÉCONNEXION</Button>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <Card className="p-4">
+          <div className="flex items-center gap-2">
+            <Phone className="h-5 w-5 text-blue-500" />
+            <div>
+              <p className="text-sm text-muted-foreground">Appels totaux</p>
+              <p className="text-xl font-bold">{agentStats.totalCalls}</p>
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center gap-2">
+            <PhoneCall className="h-5 w-5 text-green-500" />
+            <div>
+              <p className="text-sm text-muted-foreground">Appels réussis</p>
+              <p className="text-xl font-bold">{agentStats.successfulCalls}</p>
+            </div>
+          </div>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-purple-500" />
+            <div>
+              <p className="text-sm text-muted-foreground">Temps moyen</p>
+              <p className="text-xl font-bold">{agentStats.averageCallTime}</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div className="flex gap-4">
-            <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleDialNext}>
-              DIAL NEXT NUMBER
-            </Button>
-            <Button variant="outline" className="w-full" onClick={handleLeadSearch}>
-              LEAD SEARCH
-            </Button>
+            {!callStatus.isActive ? (
+              <Button 
+                className="w-full bg-green-600 hover:bg-green-700" 
+                onClick={handleDialNext}
+              >
+                <Phone className="mr-2 h-4 w-4" />
+                COMPOSER PROCHAIN NUMÉRO
+              </Button>
+            ) : (
+              <Button 
+                variant="destructive" 
+                className="w-full" 
+                onClick={handleHangup}
+              >
+                <PhoneOff className="mr-2 h-4 w-4" />
+                RACCROCHER
+              </Button>
+            )}
           </div>
 
-          <Button variant="secondary" className="w-full" onClick={handleStartRecording}>
-            START RECORDING
-          </Button>
+          {callStatus.isActive && (
+            <div className="flex justify-center gap-4">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={toggleMute}
+              >
+                {callStatus.isMuted ? (
+                  <MicOff className="h-4 w-4" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={toggleAudio}
+              >
+                {callStatus.hasAudio ? (
+                  <Volume2 className="h-4 w-4" />
+                ) : (
+                  <VolumeX className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Title</Label>
+              <Label>Prénom</Label>
               <Input 
-                value={customerInfo.title}
-                onChange={(e) => handleInputChange("title", e.target.value)}
+                value={customerInfo.prenom}
+                onChange={(e) => handleInputChange("prenom", e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>First Name</Label>
+              <Label>Nom</Label>
               <Input 
-                value={customerInfo.firstName}
-                onChange={(e) => handleInputChange("firstName", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Last Name</Label>
-              <Input 
-                value={customerInfo.lastName}
-                onChange={(e) => handleInputChange("lastName", e.target.value)}
+                value={customerInfo.nom}
+                onChange={(e) => handleInputChange("nom", e.target.value)}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Address 1</Label>
+            <Label>Adresse</Label>
             <Input 
-              value={customerInfo.address1}
-              onChange={(e) => handleInputChange("address1", e.target.value)}
+              value={customerInfo.adresse1}
+              onChange={(e) => handleInputChange("adresse1", e.target.value)}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>City</Label>
+              <Label>Ville</Label>
               <Input 
-                value={customerInfo.city}
-                onChange={(e) => handleInputChange("city", e.target.value)}
+                value={customerInfo.ville}
+                onChange={(e) => handleInputChange("ville", e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>State</Label>
+              <Label>Code Postal</Label>
               <Input 
-                value={customerInfo.state}
-                onChange={(e) => handleInputChange("state", e.target.value)}
+                value={customerInfo.codePostal}
+                onChange={(e) => handleInputChange("codePostal", e.target.value)}
               />
             </div>
           </div>
@@ -131,17 +217,17 @@ export const ViciDialDashboard = () => {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Phone</Label>
+              <Label>Téléphone</Label>
               <Input 
-                value={customerInfo.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
+                value={customerInfo.telephone}
+                onChange={(e) => handleInputChange("telephone", e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>Alt. Phone</Label>
+              <Label>Téléphone Alt.</Label>
               <Input 
-                value={customerInfo.altPhone}
-                onChange={(e) => handleInputChange("altPhone", e.target.value)}
+                value={customerInfo.telephoneAlt}
+                onChange={(e) => handleInputChange("telephoneAlt", e.target.value)}
               />
             </div>
           </div>
@@ -156,37 +242,39 @@ export const ViciDialDashboard = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>Gender</Label>
+            <Label>Genre</Label>
             <Select 
-              value={customerInfo.gender}
-              onValueChange={(value) => handleInputChange("gender", value)}
+              value={customerInfo.genre}
+              onValueChange={(value) => handleInputChange("genre", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select gender" />
+                <SelectValue placeholder="Sélectionner le genre" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="U">Undefined</SelectItem>
-                <SelectItem value="M">Male</SelectItem>
-                <SelectItem value="F">Female</SelectItem>
+                <SelectItem value="N">Non défini</SelectItem>
+                <SelectItem value="M">Masculin</SelectItem>
+                <SelectItem value="F">Féminin</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label>Comments</Label>
+            <Label>Commentaires</Label>
             <Textarea 
-              value={customerInfo.comments}
-              onChange={(e) => handleInputChange("comments", e.target.value)}
+              value={customerInfo.commentaires}
+              onChange={(e) => handleInputChange("commentaires", e.target.value)}
               className="min-h-[100px]"
+              placeholder="Ajouter des commentaires..."
             />
           </div>
 
           <div className="space-y-2">
-            <Label>Call Notes</Label>
+            <Label>Notes d'appel</Label>
             <Textarea 
-              value={customerInfo.callNotes}
-              onChange={(e) => handleInputChange("callNotes", e.target.value)}
+              value={customerInfo.notesAppel}
+              onChange={(e) => handleInputChange("notesAppel", e.target.value)}
               className="min-h-[100px]"
+              placeholder="Ajouter des notes d'appel..."
             />
           </div>
         </div>

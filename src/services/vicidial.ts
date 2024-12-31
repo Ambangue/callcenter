@@ -17,6 +17,9 @@ class ViciDialService {
       password: '***' // On masque le mot de passe dans les logs
     });
     
+    // Nettoyage de l'URL du serveur
+    config.serverUrl = this.sanitizeUrl(config.serverUrl);
+    
     this.config = config;
     
     try {
@@ -32,7 +35,10 @@ class ViciDialService {
           updated_at: new Date().toISOString()
         });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erreur lors de la sauvegarde de la configuration:", error);
+        throw error;
+      }
       
       return await this.testConnection();
     } catch (error) {
@@ -41,8 +47,24 @@ class ViciDialService {
     }
   }
 
+  private sanitizeUrl(url: string): string {
+    // Supprime les : en fin d'URL et s'assure que l'URL est bien formée
+    url = url.replace(/:+$/, '');
+    
+    // S'assure que l'URL commence par http:// ou https://
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = `http://${url}`;
+    }
+    
+    console.log("URL nettoyée:", url);
+    return url;
+  }
+
   private async testConnection(): Promise<boolean> {
-    if (!this.config) return false;
+    if (!this.config) {
+      console.error("Configuration ViciDial non initialisée");
+      return false;
+    }
 
     try {
       console.log("Test de connexion à ViciDial...");

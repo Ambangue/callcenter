@@ -48,16 +48,26 @@ class ViciDialService {
   }
 
   private sanitizeUrl(url: string): string {
-    // Supprime les : en fin d'URL et s'assure que l'URL est bien formée
-    url = url.replace(/:+$/, '');
+    // Remove trailing slashes and colons
+    url = url.replace(/[:\/]+$/, '');
     
-    // S'assure que l'URL commence par http:// ou https://
+    // Ensure the URL has a protocol
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = `http://${url}`;
     }
     
-    console.log("URL nettoyée:", url);
+    console.log("URL de base nettoyée:", url);
     return url;
+  }
+
+  private constructApiUrl(baseUrl: string): string {
+    // Ensure we have a clean base URL without trailing slashes
+    const cleanBaseUrl = baseUrl.replace(/\/+$/, '');
+    const apiPath = '/agc/api.php';
+    const fullUrl = `${cleanBaseUrl}${apiPath}`;
+    
+    console.log("URL API construite:", fullUrl);
+    return fullUrl;
   }
 
   private async testConnection(): Promise<boolean> {
@@ -67,8 +77,10 @@ class ViciDialService {
     }
 
     try {
-      console.log("Test de connexion à ViciDial...");
-      const response = await fetch(`${this.config.serverUrl}/agc/api.php`, {
+      const apiUrl = this.constructApiUrl(this.config.serverUrl);
+      console.log("Test de connexion à ViciDial sur:", apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -80,7 +92,11 @@ class ViciDialService {
         }),
       });
 
-      console.log("Réponse du test de connexion ViciDial:", response.status);
+      console.log("Réponse du test de connexion ViciDial:", {
+        status: response.status,
+        ok: response.ok
+      });
+      
       return response.ok;
     } catch (error) {
       console.error("Échec du test de connexion ViciDial:", error);

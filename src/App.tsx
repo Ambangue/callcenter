@@ -8,8 +8,17 @@ import Index from "./pages/Index";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Login from "./pages/Login";
+import Error404 from "./pages/Error404";
+import Maintenance from "./pages/Maintenance";
 
 function App() {
+  // Simulation de l'état de maintenance (à connecter à votre backend plus tard)
+  const isInMaintenance = false;
+
+  if (isInMaintenance) {
+    return <Maintenance />;
+  }
+
   return (
     <Router>
       <AuthProvider>
@@ -48,7 +57,8 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/maintenance" element={<Maintenance />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
         <Toaster />
       </AuthProvider>

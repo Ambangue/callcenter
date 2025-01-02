@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { LogOut, Home, Phone, MessageSquare, BarChart3 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const DashboardNav = () => {
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
-  const handleLogout = () => {
-    console.log("Déconnexion...");
-    navigate("/login");
+  const handleLogout = async () => {
+    await signOut();
   };
 
   return (

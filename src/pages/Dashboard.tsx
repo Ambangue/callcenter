@@ -1,16 +1,9 @@
 import { DashboardNav } from "@/components/DashboardNav";
-import { QuickStats } from "@/components/QuickStats";
-import { ActivityLog } from "@/components/ActivityLog";
-import { AdvancedStats } from "@/components/AdvancedStats";
-import { TaskList } from "@/components/TaskList";
-import { DataFilter } from "@/components/DataFilter";
-import { DashboardStats } from "@/components/DashboardStats";
-import { LiveCallMonitor } from "@/components/LiveCallMonitor";
-import { CallCenterKPIs } from "@/components/CallCenterKPIs";
-import { ViciDialConfig } from "@/components/vicidial/ViciDialConfig";
-import { AgentMonitor } from "@/components/vicidial/AgentMonitor";
-import { CallManagement } from "@/components/CallManagement";
 import { ViciDialDashboard } from "@/components/vicidial/ViciDialDashboard";
+import { CallCenterSection } from "@/components/dashboard/CallCenterSection";
+import { StatsSection } from "@/components/dashboard/StatsSection";
+import { TaskSection } from "@/components/dashboard/TaskSection";
+import { ConfigSection } from "@/components/dashboard/ConfigSection";
 
 const Dashboard = () => {
   console.log("Rendering Dashboard page with enhanced features");
@@ -23,44 +16,10 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold">Centre d'Appels ACPE</h1>
           
           <ViciDialDashboard />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <CallCenterKPIs />
-            </div>
-            <div>
-              <LiveCallMonitor />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <CallManagement />
-            </div>
-            <div>
-              <AgentMonitor />
-            </div>
-          </div>
-          
-          <DashboardStats />
-          <AdvancedStats />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <TaskList />
-            </div>
-            <div>
-              <ActivityLog />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ViciDialConfig />
-            <div className="space-y-6">
-              <DataFilter />
-              <QuickStats />
-            </div>
-          </div>
+          <CallCenterSection />
+          <StatsSection />
+          <TaskSection />
+          <ConfigSection />
         </div>
       </main>
     </div>

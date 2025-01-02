@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { SearchJobs } from "@/components/SearchJobs";
 import { RecentApplications } from "@/components/RecentApplications";
 import { AIAssistant } from "@/components/AIAssistant";
+import { JobCategories } from "@/components/JobCategories";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Phone, Users, Clock, BarChart } from "lucide-react";
 import { useState, useEffect } from "react";

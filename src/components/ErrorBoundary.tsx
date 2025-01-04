@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { logError } from '../utils/logger';
+import { toast } from '@/components/ui/use-toast';
 
 interface Props {
   children: ReactNode;
@@ -21,7 +22,15 @@ class ErrorBoundary extends Component<Props, State> {
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     logError(error, {
       errorInfo: errorInfo,
-      component: 'ErrorBoundary'
+      component: 'ErrorBoundary',
+      timestamp: new Date().toISOString()
+    });
+
+    // Show error toast to user
+    toast({
+      variant: "destructive",
+      title: "Une erreur est survenue",
+      description: "L'application a rencontré une erreur inattendue. Veuillez rafraîchir la page."
     });
   }
 

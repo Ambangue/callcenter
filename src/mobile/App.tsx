@@ -14,7 +14,20 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator 
+          id="RootNavigator"
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            headerTintColor: '#000',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        >
           <Stack.Screen 
             name="Home" 
             component={HomeScreen}

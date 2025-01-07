@@ -6,8 +6,9 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import { RootStackParamList } from './types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (

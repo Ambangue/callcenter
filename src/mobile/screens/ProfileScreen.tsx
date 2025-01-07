@@ -2,9 +2,13 @@ import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import { Text } from 'react-native';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
+
+type ProfileScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Profile'>;
 
 export default function ProfileScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const handleLogout = async () => {
     try {

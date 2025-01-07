@@ -3,12 +3,16 @@ import { StyleSheet, View, TextInput, TouchableOpacity, Alert } from 'react-nati
 import { Text } from 'react-native';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
+
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleLogin = async () => {
     if (loading) return;

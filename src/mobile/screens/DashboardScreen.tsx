@@ -1,9 +1,13 @@
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
+
+type DashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
 
 export default function DashboardScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DashboardScreenNavigationProp>();
 
   const stats = [
     { title: 'Appels aujourd\'hui', value: '45' },

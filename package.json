@@ -54,6 +54,7 @@
     "dd-trace": "^5.30.0",
     "embla-carousel-react": "^8.3.0",
     "expo": "^52.0.23",
+    "expo-status-bar": "^2.0.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",

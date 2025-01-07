@@ -14,7 +14,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator 
+        <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
             headerShown: true,

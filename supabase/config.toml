@@ -1,1 +1,25 @@
 project_id = "nhectfwlukgjzbkuslqn"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[db]
+port = 54322
+
+[studio]
+enabled = true
+port = 54323
+
+[[functions]]
+name = "integrations"
+verify_jwt = true
+
+[[functions]]
+name = "asterisk"
+verify_jwt = true
+
+[[functions]]
+name = "vicidial"
+verify_jwt = true

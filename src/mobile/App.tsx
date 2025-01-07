@@ -1,55 +1,37 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import DashboardScreen from './screens/DashboardScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import { RootStackParamList } from './types/navigation';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import DashboardScreen from "./screens/DashboardScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  console.log("Rendering Mobile App");
+  
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
-          id={undefined}
           initialRouteName="Home"
           screenOptions={{
             headerShown: true,
             headerStyle: {
-              backgroundColor: '#fff',
+              backgroundColor: "#646cff",
             },
-            headerTintColor: '#000',
+            headerTintColor: "#fff",
             headerTitleStyle: {
-              fontWeight: 'bold',
+              fontWeight: "bold",
             },
           }}
         >
-          <Stack.Screen 
-            name="Home" 
-            component={HomeScreen}
-            options={{ title: 'Accueil' }}
-          />
-          <Stack.Screen 
-            name="Login" 
-            component={LoginScreen}
-            options={{ title: 'Connexion' }}
-          />
-          <Stack.Screen 
-            name="Dashboard" 
-            component={DashboardScreen}
-            options={{ title: 'Tableau de bord' }}
-          />
-          <Stack.Screen 
-            name="Profile" 
-            component={ProfileScreen}
-            options={{ title: 'Profil' }}
-          />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Dashboard" component={DashboardScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
-        <StatusBar style="auto" />
       </NavigationContainer>
     </SafeAreaProvider>
   );

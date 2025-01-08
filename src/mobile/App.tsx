@@ -28,10 +28,26 @@ export default function App() {
             },
           }}
         >
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Dashboard" component={DashboardScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen 
+            name="Home" 
+            component={HomeScreen}
+            options={{ title: "Accueil" }}
+          />
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen}
+            options={{ title: "Connexion" }}
+          />
+          <Stack.Screen 
+            name="Dashboard" 
+            component={DashboardScreen}
+            options={{ title: "Tableau de bord" }}
+          />
+          <Stack.Screen 
+            name="Profile" 
+            component={ProfileScreen}
+            options={{ title: "Profil" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

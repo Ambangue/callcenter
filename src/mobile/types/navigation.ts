@@ -9,5 +9,5 @@ export type NavigatorProps = {
   children: React.ReactNode;
   initialRouteName?: keyof RootStackParamList;
   screenOptions?: any;
-  id?: string | undefined;  // Allow both string and undefined values
+  id: string;  // Make id required and only accept string
 };

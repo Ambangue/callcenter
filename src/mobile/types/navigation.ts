@@ -6,7 +6,6 @@ export type RootStackParamList = {
 };
 
 export type NavigatorProps = {
-  id?: undefined;
   children: React.ReactNode;
   initialRouteName?: keyof RootStackParamList;
   screenOptions?: any;

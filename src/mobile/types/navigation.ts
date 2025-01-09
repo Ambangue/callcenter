@@ -9,5 +9,4 @@ export type NavigatorProps = {
   children: React.ReactNode;
   initialRouteName?: keyof RootStackParamList;
   screenOptions?: any;
-  id?: string | undefined;  // Make id optional
 };

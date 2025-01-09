@@ -4,9 +4,3 @@ export type RootStackParamList = {
   Dashboard: undefined;
   Profile: undefined;
 };
-
-export type NavigatorProps = {
-  children: React.ReactNode;
-  initialRouteName?: keyof RootStackParamList;
-  screenOptions?: any;
-};

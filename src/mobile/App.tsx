@@ -15,6 +15,7 @@ export default function App() {
   console.log("2. Stack Navigator Type:", typeof Stack);
   console.log("3. Stack Navigator Properties:", Object.keys(Stack));
   console.log("4. Initializing navigation setup...");
+  console.log("5. Checking Stack Navigator configuration");
   
   const screenOptions: NativeStackNavigationOptions = {
     headerShown: true,
@@ -27,40 +28,46 @@ export default function App() {
     },
   };
   
-  console.log("5. Screen Options:", screenOptions);
-  console.log("6. Starting SafeAreaProvider render");
+  console.log("6. Screen Options:", screenOptions);
+  console.log("7. Starting SafeAreaProvider render");
+  console.log("8. Preparing navigation container");
   
   return (
     <SafeAreaProvider>
-      <>{console.log("7. SafeAreaProvider mounted")}</>
+      <>{console.log("9. SafeAreaProvider mounted")}</>
       <NavigationContainer
         onStateChange={(state) => {
-          console.log("8. Navigation State Changed:", state);
-          console.log("9. Current route:", state?.routes[state.index]?.name);
+          console.log("10. Navigation State Changed:", state);
+          console.log("11. Current route:", state?.routes[state.index]?.name);
+          console.log("12. Navigation params:", state?.routes[state.index]?.params);
         }}
         onReady={() => {
-          console.log("10. Navigation Container Ready");
-          console.log("11. Initial setup complete");
+          console.log("13. Navigation Container Ready");
+          console.log("14. Initial setup complete");
+          console.log("15. Navigation stack initialized");
         }}
       >
-        <>{console.log("12. NavigationContainer mounted")}</>
+        <>{console.log("16. NavigationContainer mounted")}</>
         <Stack.Navigator
+          id="root-navigator"
           initialRouteName="Home"
           screenOptions={screenOptions}
         >
-          <>{console.log("13. Stack.Navigator mounted")}</>
+          <>{console.log("17. Stack.Navigator mounted")}</>
           <Stack.Screen 
             name="Home" 
             component={HomeScreen}
             options={{ title: "Accueil" }}
             listeners={{
               focus: () => {
-                console.log("14. Home Screen Focused");
-                console.log("15. Home Screen Props loaded");
+                console.log("18. Home Screen Focused");
+                console.log("19. Home Screen Props loaded");
+                console.log("20. Home Screen render started");
               },
               blur: () => {
-                console.log("16. Home Screen Blurred");
-                console.log("17. Home Screen cleanup");
+                console.log("21. Home Screen Blurred");
+                console.log("22. Home Screen cleanup");
+                console.log("23. Home Screen unmounting");
               },
             }}
           />
@@ -70,12 +77,14 @@ export default function App() {
             options={{ title: "Connexion" }}
             listeners={{
               focus: () => {
-                console.log("18. Login Screen Focused");
-                console.log("19. Login Screen Props loaded");
+                console.log("24. Login Screen Focused");
+                console.log("25. Login Screen Props loaded");
+                console.log("26. Login Screen render started");
               },
               blur: () => {
-                console.log("20. Login Screen Blurred");
-                console.log("21. Login Screen cleanup");
+                console.log("27. Login Screen Blurred");
+                console.log("28. Login Screen cleanup");
+                console.log("29. Login Screen unmounting");
               },
             }}
           />
@@ -85,12 +94,14 @@ export default function App() {
             options={{ title: "Tableau de bord" }}
             listeners={{
               focus: () => {
-                console.log("22. Dashboard Screen Focused");
-                console.log("23. Dashboard Screen Props loaded");
+                console.log("30. Dashboard Screen Focused");
+                console.log("31. Dashboard Screen Props loaded");
+                console.log("32. Dashboard Screen render started");
               },
               blur: () => {
-                console.log("24. Dashboard Screen Blurred");
-                console.log("25. Dashboard Screen cleanup");
+                console.log("33. Dashboard Screen Blurred");
+                console.log("34. Dashboard Screen cleanup");
+                console.log("35. Dashboard Screen unmounting");
               },
             }}
           />
@@ -100,12 +111,14 @@ export default function App() {
             options={{ title: "Profil" }}
             listeners={{
               focus: () => {
-                console.log("26. Profile Screen Focused");
-                console.log("27. Profile Screen Props loaded");
+                console.log("36. Profile Screen Focused");
+                console.log("37. Profile Screen Props loaded");
+                console.log("38. Profile Screen render started");
               },
               blur: () => {
-                console.log("28. Profile Screen Blurred");
-                console.log("29. Profile Screen cleanup");
+                console.log("39. Profile Screen Blurred");
+                console.log("40. Profile Screen cleanup");
+                console.log("41. Profile Screen unmounting");
               },
             }}
           />

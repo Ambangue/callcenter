@@ -6,6 +6,7 @@ import LoginScreen from "./screens/LoginScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import type { RootStackParamList } from "./types/navigation";
+import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -14,14 +15,14 @@ export default function App() {
   console.log("2. Stack Navigator Type:", typeof Stack);
   console.log("3. Stack Navigator Properties:", Object.keys(Stack));
   
-  const screenOptions = {
+  const screenOptions: NativeStackNavigationOptions = {
     headerShown: true,
     headerStyle: {
       backgroundColor: "#646cff",
     },
     headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: "bold",
+      fontWeight: "700",
     },
   };
   
@@ -29,7 +30,7 @@ export default function App() {
   
   return (
     <SafeAreaProvider>
-      {console.log("5. Rendering SafeAreaProvider")}
+      <>{console.log("5. Rendering SafeAreaProvider")}</>
       <NavigationContainer
         onStateChange={(state) => {
           console.log("6. Navigation State Changed:", state);
@@ -38,12 +39,12 @@ export default function App() {
           console.log("7. Navigation Container Ready");
         }}
       >
-        {console.log("8. Rendering NavigationContainer")}
+        <>{console.log("8. Rendering NavigationContainer")}</>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={screenOptions}
         >
-          {console.log("9. Rendering Stack.Navigator")}
+          <>{console.log("9. Rendering Stack.Navigator")}</>
           <Stack.Screen 
             name="Home" 
             component={HomeScreen}

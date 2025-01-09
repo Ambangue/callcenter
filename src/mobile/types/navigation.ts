@@ -4,3 +4,10 @@ export type RootStackParamList = {
   Dashboard: undefined;
   Profile: undefined;
 };
+
+// Add explicit typing for the navigator
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}

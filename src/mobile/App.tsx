@@ -49,7 +49,6 @@ export default function App() {
       >
         <>{console.log("16. NavigationContainer mounted")}</>
         <Stack.Navigator
-          id="root-navigator"
           initialRouteName="Home"
           screenOptions={screenOptions}
         >

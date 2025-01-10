@@ -4,10 +4,12 @@ import { SearchJobs } from "@/components/SearchJobs";
 import { RecentApplications } from "@/components/RecentApplications";
 import { AIAssistant } from "@/components/AIAssistant";
 import { JobCategories } from "@/components/JobCategories";
+import { AnimatedStats } from "@/components/dashboard/AnimatedStats";
+import { LiveAlerts } from "@/components/alerts/LiveAlerts";
+import { DataGlobe } from "@/components/visualizations/DataGlobe";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Phone, Users, Clock, BarChart } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +25,7 @@ const Index = () => {
     }, 1000);
   }, []);
 
-  console.log("Rendering Index page");
+  console.log("Rendering Index page with new components");
   
   if (isLoading) {
     return (
@@ -33,80 +35,35 @@ const Index = () => {
     );
   }
 
-  const callCenterStats = [
-    {
-      icon: Phone,
-      label: "Appels en attente",
-      value: "12",
-      trend: "+2",
-      color: "text-blue-500"
-    },
-    {
-      icon: Users,
-      label: "Agents actifs",
-      value: "8",
-      trend: "-1",
-      color: "text-green-500"
-    },
-    {
-      icon: Clock,
-      label: "Temps moyen d'attente",
-      value: "2:30",
-      trend: "-0:15",
-      color: "text-orange-500"
-    },
-    {
-      icon: BarChart,
-      label: "Taux de résolution",
-      value: "92%",
-      trend: "+2%",
-      color: "text-purple-500"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Section Héro */}
-      <section className="bg-primary text-white py-16 animate-fade-in">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+      {/* Section Héro avec animation */}
+      <section className="bg-primary text-white py-16 animate-fade-in relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-50" />
+        <div className="container mx-auto px-4 relative z-10">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
             ACPE OmniCall Center
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-200">
+          <p className="text-xl md:text-2xl mb-8 text-gray-200 animate-fade-in delay-100">
             Plateforme unifiée pour une gestion optimale des interactions
           </p>
         </div>
       </section>
 
       <main className="container mx-auto px-4 py-8 -mt-8">
-        {/* Statistiques en temps réel */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          {callCenterStats.map((stat, index) => (
-            <Card key={index} className="p-6 animate-fade-in" style={{animationDelay: `${index * 100}ms`}}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <h3 className="text-2xl font-bold mt-2">{stat.value}</h3>
-                </div>
-                <div className={`rounded-full p-3 bg-gray-100 ${stat.color}`}>
-                  <stat.icon className="h-6 w-6" />
-                </div>
-              </div>
-              <div className="mt-4 text-sm">
-                <span className={stat.trend.startsWith('+') ? 'text-green-500' : 'text-red-500'}>
-                  {stat.trend}
-                </span>
-                <span className="text-muted-foreground ml-1">depuis 1h</span>
-              </div>
-            </Card>
-          ))}
+        {/* Statistiques animées */}
+        <div className="mb-8">
+          <AnimatedStats />
         </div>
 
         {/* Section Principale */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-6">
+            {/* Globe de données */}
+            <DataGlobe />
+            
             {/* File d'attente et gestion des appels */}
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow animate-fade-in">
               <h2 className="text-2xl font-bold mb-4">File d'attente des appels</h2>
@@ -122,6 +79,9 @@ const Index = () => {
 
           {/* Barre latérale */}
           <div className="space-y-6">
+            {/* Alertes en temps réel */}
+            <LiveAlerts />
+            
             {/* Assistant IA */}
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow animate-fade-in delay-200">
               <h2 className="text-2xl font-bold mb-4">Assistant IA</h2>

@@ -25,8 +25,6 @@ const Index = () => {
     }, 1000);
   }, []);
 
-  console.log("Rendering Index page with new components");
-  
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -39,7 +37,6 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Section Héro avec animation */}
       <section className="bg-primary text-white py-16 animate-fade-in relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-50" />
         <div className="container mx-auto px-4 relative z-10">
@@ -53,42 +50,35 @@ const Index = () => {
       </section>
 
       <main className="container mx-auto px-4 py-8 -mt-8">
-        {/* Statistiques animées */}
         <div className="mb-8">
           <AnimatedStats />
         </div>
 
-        {/* Section Principale */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-6">
-            {/* Globe de données */}
-            <DataGlobe />
+            <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+              <DataGlobe />
+            </div>
             
-            {/* File d'attente et gestion des appels */}
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow animate-fade-in">
               <h2 className="text-2xl font-bold mb-4">File d'attente des appels</h2>
               <RecentApplications />
             </div>
             
-            {/* Historique des interactions */}
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow animate-fade-in delay-100">
               <h2 className="text-2xl font-bold mb-4">Historique des interactions</h2>
               <JobCategories />
             </div>
           </div>
 
-          {/* Barre latérale */}
           <div className="space-y-6">
-            {/* Alertes en temps réel */}
             <LiveAlerts />
             
-            {/* Assistant IA */}
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow animate-fade-in delay-200">
               <h2 className="text-2xl font-bold mb-4">Assistant IA</h2>
               <AIAssistant />
             </div>
             
-            {/* Recherche rapide */}
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow animate-fade-in delay-300">
               <h2 className="text-2xl font-bold mb-4">Recherche usager</h2>
               <SearchJobs />

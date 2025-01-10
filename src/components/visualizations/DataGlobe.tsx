@@ -12,42 +12,43 @@ export const DataGlobe = () => {
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, mountRef.current.clientWidth / mountRef.current.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     
     renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Globe
-    const geometry = new THREE.SphereGeometry(5, 32, 32);
+    // Add globe
+    const geometry = new THREE.SphereGeometry(2, 32, 32);
     const material = new THREE.MeshPhongMaterial({
       color: 0x0ea5e9,
       wireframe: true,
       transparent: true,
-      opacity: 0.8
+      opacity: 0.8,
     });
     const globe = new THREE.Mesh(geometry, material);
     scene.add(globe);
 
-    // Lights
+    // Add lights
     const ambientLight = new THREE.AmbientLight(0x404040);
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 1);
-    pointLight.position.set(10, 10, 10);
-    scene.add(pointLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 3, 5);
+    scene.add(directionalLight);
 
     // Camera position
-    camera.position.z = 15;
+    camera.position.z = 5;
 
-    // Controls
+    // Add controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.rotateSpeed = 0.5;
 
-    // Animation
+    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      globe.rotation.y += 0.005;
+      globe.rotation.y += 0.001;
       controls.update();
       renderer.render(scene, camera);
     };
@@ -62,16 +63,17 @@ export const DataGlobe = () => {
     };
     window.addEventListener('resize', handleResize);
 
+    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       mountRef.current?.removeChild(renderer.domElement);
+      renderer.dispose();
     };
   }, []);
 
   return (
-    <Card className="p-4">
-      <h3 className="font-semibold mb-4">Visualisation Globale</h3>
-      <div ref={mountRef} className="h-[400px] w-full" />
+    <Card className="w-full h-[400px] overflow-hidden">
+      <div ref={mountRef} className="w-full h-full" />
     </Card>
   );
 };

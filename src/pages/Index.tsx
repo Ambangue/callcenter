@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { AnimatedStats } from "@/components/dashboard/AnimatedStats";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -20,7 +17,7 @@ const Index = () => {
         setIsLoading(false);
         
         toast({
-          description: "Bienvenue sur ACPE OmniCall",
+          description: "Bienvenue sur ACPE OmniCall - Centre d'appels unifié",
         });
       } catch (error) {
         console.error("Erreur lors de l'initialisation:", error);
@@ -28,12 +25,11 @@ const Index = () => {
           description: "Une erreur est survenue lors du chargement",
           variant: "destructive",
         });
-        setIsLoading(false);
       }
     };
 
     initializeApp();
-  }, []);
+  }, [toast]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -42,22 +38,9 @@ const Index = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
-        <Header />
-        
         <HeroSection />
-
-        <main className="container mx-auto px-4 py-8 -mt-8">
-          <div className="mb-8">
-            <AnimatedStats />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <DataVisualizationSection />
-            <SidebarSection />
-          </div>
-        </main>
-
-        <Footer />
+        <DataVisualizationSection />
+        <SidebarSection />
       </div>
     </ErrorBoundary>
   );

@@ -7,7 +7,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { DataVisualizationSection } from "@/components/sections/DataVisualizationSection";
 import { SidebarSection } from "@/components/sections/SidebarSection";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);

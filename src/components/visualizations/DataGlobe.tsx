@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Card } from "@/components/ui/card";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { toast } from "sonner";
+import { toast } from "@/components/ui/use-toast";
 
 export const DataGlobe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -76,8 +76,8 @@ export const DataGlobe = () => {
       console.error("Erreur lors de l'initialisation du globe:", err);
       setError("Erreur lors du chargement du globe");
       toast({
-        title: "Erreur",
         description: "Impossible de charger le globe 3D",
+        variant: "destructive"
       });
     }
   }, []);

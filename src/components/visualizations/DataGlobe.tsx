@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Card } from "@/components/ui/card";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export const DataGlobe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!mountRef.current) return;

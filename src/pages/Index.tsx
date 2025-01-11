@@ -14,21 +14,17 @@ const Index = () => {
   const { toast } = useToast();
   
   useEffect(() => {
-    // Simuler un temps de chargement pour l'initialisation
     const initializeApp = async () => {
       try {
-        // Attendre que les composants soient chargés
         await new Promise(resolve => setTimeout(resolve, 1000));
         setIsLoading(false);
         
         toast({
-          title: "Bienvenue sur ACPE OmniCall",
-          description: "Centre d'appels unifié pour un service optimal",
+          description: "Bienvenue sur ACPE OmniCall",
         });
       } catch (error) {
         console.error("Erreur lors de l'initialisation:", error);
         toast({
-          title: "Erreur",
           description: "Une erreur est survenue lors du chargement",
           variant: "destructive",
         });

@@ -1,16 +1,9 @@
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Search, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
+import { CandidateSearchBar } from "./CandidateSearchBar";
+import { CandidateTable } from "./CandidateTable";
 
 interface Candidate {
   id: number;
@@ -57,48 +50,22 @@ export const CandidateList = () => {
     )
   );
 
+  console.log("Rendering CandidateList with filtered candidates:", filteredCandidates.length);
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Rechercher un candidat..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8"
-          />
-        </div>
+        <CandidateSearchBar 
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+        />
         <Button onClick={handleExport}>
           <Download className="mr-2 h-4 w-4" />
           Exporter
         </Button>
       </div>
 
-      <div className="border rounded-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nom</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Téléphone</TableHead>
-              <TableHead>Statut</TableHead>
-              <TableHead>Dernier contact</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredCandidates.map((candidate) => (
-              <TableRow key={candidate.id}>
-                <TableCell>{candidate.name}</TableCell>
-                <TableCell>{candidate.email}</TableCell>
-                <TableCell>{candidate.phone}</TableCell>
-                <TableCell>{candidate.status}</TableCell>
-                <TableCell>{candidate.lastContact}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <CandidateTable candidates={filteredCandidates} />
     </div>
   );
 };
